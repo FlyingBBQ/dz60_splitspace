@@ -1,7 +1,7 @@
 #!/bin/sh
 
 board="dz60"
-layout="default"
+layout="splitspace"
 chip="atmega32u4"
 
 echo "Making hex file for layout $splitspace on $board"
