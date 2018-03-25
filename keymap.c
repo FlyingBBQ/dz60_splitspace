@@ -1,7 +1,7 @@
-// 
-// dz60 - splitspace
-// by FlyingBBQ
-//
+/*
+    dz60 - splitspace
+    by FlyingBBQ
+*/
 #include "dz60.h"
 
 // Layers
@@ -12,12 +12,20 @@
 #define _FN 8
 #define _MC 9
 
-// keys
+// Renaming keys
 #define  ______   KC_TRNS
-#define  CTL_SPC  CTL_T(KC_SPC)
 #define  CTL_BSP  CTL_T(KC_BSPC)
 #define  FN_DEL   LT(_FN, KC_DEL)
 
+// Macro names
+enum custom_keycodes {
+    MURL_1 = SAFE_RANGE,
+    MCLR_1,
+    MCLR_2,
+    MTXT_1
+};
+
+// Keymaps
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     // Default with Left and Right Space
@@ -28,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_LSFT , KC_NO   , KC_Z    , KC_X    , KC_C    , KC_V   , KC_B    , KC_N    , KC_M  , KC_COMM , KC_DOT   , KC_SLSH , KC_RSFT , KC_DEL  ,
             KC_LCTL , KC_LGUI , KC_LALT , KC_SPC  , MO(_FN) , KC_SPC , KC_RALT , KC_RGUI , KC_NO , OSL(_MC), KC_RCTL) ,
 
-    // Left Space to backspace
+    // Left Space to backspace, CTRL when held
     [_L1] = KEYMAP(
             ______  , ______ , ______ , ______  , ______ , ______ , ______ , ______ , ______ , ______ , ______  , ______ , ______ , ______ , ______ ,
             ______  , ______ , ______ , ______  , ______ , ______ , ______ , ______ , ______ , ______ , ______  , ______ , ______ , ______ ,
@@ -52,7 +60,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_LSPO , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______  , ______ , KC_RSPC , ______ ,
             ______  , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______) ,
 
-
     // Function layer via mid-space modifier key
     [_FN] = KEYMAP(
             ______  , KC_F1   , KC_F2   , KC_F3   , KC_F4  , KC_F5  , KC_F6   , KC_F7   , KC_F8   , KC_F9   , KC_F10   , KC_F11  , KC_F12  , ______  , ______ ,
@@ -63,35 +70,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     // Macro layer
     [_MC] = KEYMAP(
-            ______ , M(1)   , M(2)   , M(3)   , M(4)   , M(5)   , M(6)   , M(7)   , M(8)   , M(9)   , M(10)   , M(11)  , M(12)  , ______ , ______ ,
+            ______ , MURL_1 , MTXT_1 , ______ , ______ , MCLR_1 , MCLR_2 , ______ , ______ , ______ , ______  , ______ , ______ , ______ , ______ ,
             ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______  , ______ , ______ , ______ ,
             ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______  , ______ , ______ ,
             ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______  , ______ , ______ , ______ ,
             ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______) ,
 };
 
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
+// Macro function
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
-        switch(id) {
-            case 1:
+        switch(keycode) {
+            case MURL_1:
                 SEND_STRING("https://www.reddit.com/r/MechanicalKeyboards/");
-                break;
-            case 2:
+                return false;
+            case MTXT_1:
+                SEND_STRING("snap"SS_TAP(X_HOME)"oh, "SS_TAP(X_END)"!");
+                return false;
+            case MCLR_1:
                 rgblight_show_solid_color(69, 133, 136);
-                break;
-            case 3:
-                rgblight_show_solid_color(254, 128, 25);
-                break;
-            case 5:
-                //cyan
+                return false;
+            case MCLR_2:
                 rgblight_sethsv(183, 49, 52);
-                break;
-            case 6:
-                //orange
-                rgblight_sethsv(27, 90, 100);
-                break;
+                return false;
         }
     }
-    return MACRO_NONE;
-}
-
+    return true;
+};
