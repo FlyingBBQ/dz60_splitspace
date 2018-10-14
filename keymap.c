@@ -15,8 +15,8 @@
 #define  ______   KC_TRNS
 #define  CTL_BSP  CTL_T(KC_BSPC)
 #define  CTL_ESC  CTL_T(KC_ESC)
-#define  KC_LPAR  MT(MOD_LSFT, KC_LEFT_CURLY_BRACE)
-#define  KC_RPAR  MT(MOD_RSFT, KC_RIGHT_CURLY_BRACE)
+#define  WIN_L    LCTL(LGUI(KC_LEFT))
+#define  WIN_R    LCTL(LGUI(KC_RGHT))
 
 // Macro names
 enum custom_keycodes {
@@ -60,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             ______  , KC_F1   , KC_F2   , KC_F3   , KC_F4  , KC_F5  , KC_F6   , KC_F7   , KC_F8   , KC_F9   , KC_F10   , KC_F11  , KC_F12  , ______  , ______ ,
             ______  , ______  , KC_PGUP , ______  , ______ , ______ , ______  , ______  , ______  , ______  , ______   , ______  , ______  , RESET   ,
             KC_CAPS , KC_HOME , KC_PGDN , KC_END  , ______ , ______ , KC_LEFT , KC_DOWN , KC_UP   , KC_RGHT , ______   , ______  , ______  ,
-            ______  , ______  , ______  , ______  , ______ , ______ , KC_MPLY , KC_VOLD , KC_VOLU , KC_MPRV , KC_MNXT  , KC_MUTE , RGB_TOG , KC_PSCR ,
+            ______  , ______  , WIN_L   , WIN_R   , ______ , ______ , KC_MPLY , KC_VOLD , KC_VOLU , KC_MPRV , KC_MNXT  , KC_MUTE , RGB_TOG , KC_PSCR ,
             ______  , ______  , ______  , TG(_L1) , ______ , TG(_L2), RGB_VAD , RGB_VAI , ______  , RGB_M_P , RGB_M_B) ,
 
     // Macro layer
