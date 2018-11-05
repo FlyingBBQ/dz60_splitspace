@@ -4,13 +4,6 @@
 */
 #include "dz60.h"
 
-// Layers
-#define _DF 0
-#define _L1 1
-#define _L2 2
-#define _FN 8
-#define _MC 9
-
 // Renaming keys
 #define  ______   KC_TRNS
 #define  CTL_BSP  CTL_T(KC_BSPC)
@@ -18,9 +11,19 @@
 #define  WIN_L    LCTL(LGUI(KC_LEFT))
 #define  WIN_R    LCTL(LGUI(KC_RGHT))
 
+// layers
+enum layers {
+    _DF,
+    _L1,
+    _L2,
+    _FN,
+    _MC,
+};
+
 // Macro names
 enum custom_keycodes {
     MURL_1 = SAFE_RANGE,
+    MURL_2,
     MTXT_1,
     MCLR_1,
     MCLR_2,
@@ -65,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     // Macro layer
     [_MC] = LAYOUT(
-            ______ , MURL_1 , MTXT_1 , ______ , ______ , MCLR_1 , MCLR_2 , MCLR_3 , MCLR_4 , ______ , ______ , ______  , ______ , ______ , ______ ,
+            ______ , MURL_1 , MURL_2 , MTXT_1 , ______ , MCLR_1 , MCLR_2 , MCLR_3 , MCLR_4 , ______ , ______ , ______  , ______ , ______ , ______ ,
             ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______  , ______ , ______ , ______ ,
             ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______  , ______ , ______ ,
             ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______ , ______  , ______ , ______ , ______ ,
@@ -77,6 +80,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         switch(keycode) {
             case MURL_1:
+                SEND_STRING("https://www.github.com/flyingbbq");
+                return false;
+            case MURL_2:
                 SEND_STRING("https://www.reddit.com/r/MechanicalKeyboards/");
                 return false;
             case MTXT_1:
