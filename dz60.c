@@ -6,9 +6,6 @@ void matrix_init_kb(void) {
   // Runs once when the firmware starts up
   matrix_init_user();
   led_init_ports();
-  rgblight_init();
-  rgblight_enable();
-  rgblight_setrgb(69, 133, 136);
 };
 
 void matrix_scan_kb(void) {
@@ -25,7 +22,11 @@ void led_init_ports(void) {
 }
 
 void led_set_kb(uint8_t usb_led) {
-  // Code for caps lock LED as reported by the OS
-  // Set this per keymap, instead of globally
-  led_set_user(usb_led);
+    if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
+        PORTB &= ~(1 << 2);
+    } else {
+        PORTB |= (1 << 2);
+    }
+
+    led_set_user(usb_led);
 }
